@@ -2,7 +2,7 @@
   <div class="banner-carousel">
     <div class="carousel-track" :style="trackStyle">
       <div v-for="(slide, index) in slides" :key="index" class="carousel-slide">
-        <img :src="slide.image" :alt="slide.title" />
+        <img v-lazy="slide.image" :alt="slide.title" />
       </div>
     </div>
     <button class="carousel-arrow carousel-prev" @click="prevSlide">❮</button>

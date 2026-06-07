@@ -3,8 +3,12 @@ import './style.css'
 import './assets/styles/mobile-override.scss'
 import App from './App.vue'
 import router from './router'
+import { vLazy } from './directives/vLazy.js'
 
 const app = createApp(App)
+
+// 全局注册图片懒加载指令
+app.directive('lazy', vLazy)
 
 // 全局异常捕获
 app.config.errorHandler = (err, vm, info) => {

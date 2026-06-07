@@ -46,7 +46,7 @@
                   <span class="card-action">{{ card.action }}</span>
                 </div>
                 <div class="card-image">
-                  <img :src="card.image" :alt="card.title" />
+                  <img v-lazy="card.image" :alt="card.title" />
                 </div>
                 <div class="card-body">
                   <p class="card-summary">{{ card.summary }}</p>
@@ -74,7 +74,7 @@
                 <span class="card-action">{{ card.action }}</span>
               </div>
               <div class="card-image">
-                <img :src="card.image" :alt="card.title" />
+                <img v-lazy="card.image" :alt="card.title" />
               </div>
               <div class="card-body">
                 <p class="card-summary">{{ card.summary }}</p>

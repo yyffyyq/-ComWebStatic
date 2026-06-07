@@ -60,7 +60,7 @@
               class="product-card"
             >
               <div class="product-image">
-                <img :src="getItemImage(item)" :alt="itemName(item)" />
+                <img v-lazy="getItemImage(item)" :alt="itemName(item)" />
               </div>
               <h4 class="product-name">{{ itemName(item) }}</h4>
               <p v-if="itemPrice(item)" class="product-price">

@@ -12,14 +12,14 @@
         <!-- 第一组 Logo -->
         <div v-for="logo in logoList" :key="'a-' + logo.id" class="logo-item">
           <div class="logo-card">
-            <img :src="logo.image" :alt="logo.name" />
+            <img v-lazy="logo.image" :alt="logo.name" />
           </div>
           <span class="logo-label">{{ logo.label }}</span>
         </div>
         <!-- 复制一组实现无缝循环 -->
         <div v-for="logo in logoList" :key="'b-' + logo.id" class="logo-item">
           <div class="logo-card">
-            <img :src="logo.image" :alt="logo.name" />
+            <img v-lazy="logo.image" :alt="logo.name" />
           </div>
           <span class="logo-label">{{ logo.label }}</span>
         </div>
