@@ -23,7 +23,6 @@
       <div class="content-inner">
         <!-- 左侧筛选栏 -->
         <aside class="sidebar">
-          
           <!-- 搜索功能做一个后期动态升级的预留功能 -->
           <!-- <div class="sidebar-search">
             <input
@@ -35,19 +34,14 @@
             <button class="search-btn" @click="handleSearch">搜索</button>
           </div> -->
 
-          
-          <div
-            class="sidebar-section"
-            v-for="col in pageData?.children"
-            :key="col.title"
-          >
+          <div v-for="col in pageData?.children" :key="col.title" class="sidebar-section">
             <h3 class="sidebar-title">{{ col.title }}</h3>
             <ul class="sidebar-list">
               <li
                 v-for="item in col.items"
                 :key="item"
                 :class="{
-                  active: activeTitle === col.title && activeItem === item
+                  active: activeTitle === col.title && activeItem === item,
                 }"
                 @click="selectItem(col.title, item)"
               >
@@ -69,7 +63,7 @@
                 <img :src="getItemImage(item)" :alt="itemName(item)" />
               </div>
               <h4 class="product-name">{{ itemName(item) }}</h4>
-              <p class="product-price" v-if="itemPrice(item)">
+              <p v-if="itemPrice(item)" class="product-price">
                 {{ itemPrice(item) }}
               </p>
               <div class="product-actions">
@@ -80,17 +74,17 @@
                   {{ isDocOpen(item) ? '收起文档' : '产品文档' }}
                 </span>
               </div>
-              <div class="product-detail" v-if="isDetailOpen(item)">
+              <div v-if="isDetailOpen(item)" class="product-detail">
                 {{ itemDetail(item) || '详情内容预留' }}
               </div>
-              <div class="product-doc" v-if="isDocOpen(item)">
+              <div v-if="isDocOpen(item)" class="product-doc">
                 <p>产品文档预留内容</p>
               </div>
             </div>
           </div>
 
           <!-- 分页 -->
-          <div class="pagination-bar" v-if="totalPages > 1">
+          <div v-if="totalPages > 1" class="pagination-bar">
             <span
               v-for="p in totalPages"
               :key="p"
@@ -113,25 +107,19 @@
           <div class="help-card">
             <div class="help-icon">💼</div>
             <h3>项目咨询</h3>
-            <p>
-              如果您想要购买产品，请联系我们，我们的团队非常乐意为您提供帮助。
-            </p>
+            <p>如果您想要购买产品，请联系我们，我们的团队非常乐意为您提供帮助。</p>
             <a href="#">我要咨询 →</a>
           </div>
           <div class="help-card">
             <div class="help-icon">🔧</div>
             <h3>选型产品</h3>
-            <p>
-              在此您可以可以在线选型产品，更快速精准地找到您想要的产品。
-            </p>
+            <p>在此您可以可以在线选型产品，更快速精准地找到您想要的产品。</p>
             <a href="#">产品选型 →</a>
           </div>
           <div class="help-card">
             <div class="help-icon">🎧</div>
             <h3>联系客服</h3>
-            <p>
-              我们的客服团队可为您提供产品资料、技术支持、投诉帮助等服务，请联系他们。
-            </p>
+            <p>我们的客服团队可为您提供产品资料、技术支持、投诉帮助等服务，请联系他们。</p>
             <a href="#">获得支持 →</a>
           </div>
         </div>
@@ -153,7 +141,7 @@ import { electricProducts } from '../data/电气照明.js'
 import { hardwareProducts } from '../data/五金工具.js'
 
 const props = defineProps({
-  pageData: { type: Object, required: true }
+  pageData: { type: Object, required: true },
 })
 
 const route = useRoute()
@@ -177,10 +165,10 @@ const pageSize = 9
 
 // 分类名称与对应数据文件的映射
 const categoryMap = {
-  '管材类': pipeProducts,
-  '消防系统': fireProducts,
-  '电气照明': electricProducts,
-  '五金工具': hardwareProducts
+  管材类: pipeProducts,
+  消防系统: fireProducts,
+  电气照明: electricProducts,
+  五金工具: hardwareProducts,
 }
 
 /**
@@ -215,9 +203,7 @@ const currentItems = computed(() => {
 
   let items = []
   if (activeTitle.value && props.pageData?.children) {
-    const col = props.pageData.children.find(
-      (c) => c.title === activeTitle.value
-    )
+    const col = props.pageData.children.find((c) => c.title === activeTitle.value)
     if (col) items = [...col.items]
   } else {
     const seen = new Set()
@@ -265,7 +251,7 @@ function selectItem(title, item) {
   currentPage.value = 1
   router.replace({
     path: route.path,
-    query: { title, item }
+    query: { title, item },
   })
 }
 
@@ -334,11 +320,11 @@ watch(
   () => {
     activeTitle.value = route.query.title || ''
     activeItem.value = route.query.item || ''
-  }
+  },
 )
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* ==================== Banner ==================== */
 .page-banner {
   background: linear-gradient(135deg, #005bac 0%, #003d7a 100%);
@@ -687,7 +673,7 @@ watch(
 }
 
 /* ==================== 响应式适配 ==================== */
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-tablet) {
   .content-inner {
     flex-direction: column;
   }
@@ -705,7 +691,7 @@ watch(
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $breakpoint-small-mobile) {
   .product-grid {
     grid-template-columns: 1fr;
   }

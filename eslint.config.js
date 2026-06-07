@@ -28,12 +28,14 @@ export default [
         },
       ],
       'vue/html-indent': ['error', 2],
+      'vue/multi-word-component-names': 'off',
     },
   },
   {
     rules: {
       'no-console': 'warn',
       'no-debugger': 'warn',
+      'no-unused-vars': 'warn',
     },
   },
   {

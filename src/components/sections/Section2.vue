@@ -1,13 +1,13 @@
 <template>
   <!-- 第二内容区域：案例中心 -->
-  <section class="section section-2" ref="sectionRef">
+  <section ref="sectionRef" class="section section-2">
     <div class="section-inner">
       <!-- 大标题 -->
       <h2 class="section-title" :class="{ visible: isVisible }">案例中心</h2>
       <p class="section-subtitle" :class="{ visible: isVisible }">
         专注工程建材一站式供应<br />服务水电、消防、照明及工程配套领域
       </p>
-      
+
       <!-- 分类标签栏 -->
       <div class="category-tabs" :class="{ visible: isVisible }">
         <button
@@ -24,7 +24,7 @@
       <!-- 卡片展示：超过一行时启用轮播 -->
       <div class="cards-wrapper" :class="{ visible: isVisible }">
         <!-- 轮播模式 -->
-        <div v-if="needCarousel" class="cards-viewport" ref="viewportRef">
+        <div v-if="needCarousel" ref="viewportRef" class="cards-viewport">
           <div
             class="cards-track"
             :class="{ dragging: isDragging }"
@@ -83,7 +83,6 @@
             </div>
           </div>
         </div>
-
       </div>
 
       <!-- 进度条（仅在轮播时显示） -->
@@ -382,7 +381,7 @@ function closeModal() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* ==================== 区域基础样式 ==================== */
 .section {
   width: 100%;
@@ -556,7 +555,9 @@ function closeModal() {
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border: 1px solid #f0f0f0;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
   text-align: left;
 }
 
@@ -730,7 +731,7 @@ function closeModal() {
 }
 
 /* ==================== 响应式适配 ==================== */
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-tablet) {
   .cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -740,7 +741,7 @@ function closeModal() {
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $breakpoint-small-mobile) {
   .section-title {
     font-size: 36px;
   }

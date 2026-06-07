@@ -1,13 +1,11 @@
 <template>
   <!-- 第一内容区域：参考图1风格的企业实力展示 -->
-  <section class="section section-1" ref="sectionRef">
+  <section ref="sectionRef" class="section section-1">
     <div class="section-inner">
       <!-- 左侧文字内容区 -->
       <div class="content-left">
         <!-- 主标题：滚动进入时从左侧滑入 -->
-        <h2 class="main-title" :class="{ visible: isVisible }">
-          以质为基 链接建筑全产业链一体化
-        </h2>
+        <h2 class="main-title" :class="{ visible: isVisible }">以质为基 链接建筑全产业链一体化</h2>
 
         <!-- 彩色装饰线条 + 副标题 -->
         <div class="color-line" :class="{ visible: isVisible }">
@@ -116,7 +114,7 @@ watch(isVisible, (val) => {
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* ==================== 区域基础样式 ==================== */
 .section {
   width: 100%;
@@ -311,7 +309,7 @@ watch(isVisible, (val) => {
 }
 
 /* ==================== 响应式适配 ==================== */
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-tablet) {
   .section-inner {
     flex-direction: column;
     gap: 40px;

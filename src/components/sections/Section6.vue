@@ -1,6 +1,6 @@
 <template>
   <!-- 第六内容区域：页脚导航与版权信息 -->
-  <footer class="footer-section" ref="footerRef">
+  <footer ref="footerRef" class="footer-section">
     <div class="footer-inner">
       <!-- 多列链接导航区 -->
       <div class="footer-links" :class="{ visible: isVisible }">
@@ -89,9 +89,7 @@
       <!-- 底部版权栏 -->
       <div class="footer-bottom">
         <div class="bottom-left">
-          <span class="copyright">
-            © 温州中利建筑工程有限公司 All Rights Reserved
-          </span>
+          <span class="copyright"> © 温州中利建筑工程有限公司 All Rights Reserved </span>
           <span class="icp">浙ICP备XXXXXXXX号</span>
         </div>
         <div class="bottom-right">
@@ -103,7 +101,7 @@
     </div>
 
     <!-- 返回顶部按钮 -->
-    <div class="back-top" @click="scrollToTop" title="返回顶部">
+    <div class="back-top" title="返回顶部" @click="scrollToTop">
       <svg viewBox="0 0 24 24" width="20" height="20">
         <path d="M12 4l-8 8h5v8h6v-8h5z" fill="currentColor" />
       </svg>
@@ -127,7 +125,7 @@ function scrollToTop() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* ==================== 页脚基础样式 ==================== */
 .footer-section {
   width: 100%;
@@ -262,14 +260,14 @@ function scrollToTop() {
 }
 
 /* ==================== 响应式适配 ==================== */
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-tablet) {
   .footer-links {
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $breakpoint-small-mobile) {
   .footer-links {
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;

@@ -25,7 +25,10 @@
           <div class="company-header">
             <div class="company-icon">
               <svg viewBox="0 0 24 24" width="28" height="28">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="currentColor"/>
+                <path
+                  d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"
+                  fill="currentColor"
+                />
               </svg>
             </div>
             <div>
@@ -45,7 +48,10 @@
             >
               <div class="info-icon">
                 <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" fill="currentColor"/>
+                  <path
+                    d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <div class="info-text">
@@ -54,7 +60,10 @@
               </div>
               <span class="map-hint">
                 <svg viewBox="0 0 24 24" width="14" height="14">
-                  <path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z" fill="currentColor"/>
+                  <path
+                    d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"
+                    fill="currentColor"
+                  />
                 </svg>
               </span>
             </a>
@@ -62,7 +71,10 @@
             <div class="info-row">
               <div class="info-icon">
                 <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.07 21 3 13.93 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.1.31.03.7-.25 1.02l-2.2 2.2z" fill="currentColor"/>
+                  <path
+                    d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1C10.07 21 3 13.93 3 4c0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.1.31.03.7-.25 1.02l-2.2 2.2z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <div class="info-text">
@@ -74,7 +86,10 @@
             <div class="info-row">
               <div class="info-icon">
                 <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
+                  <path
+                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <div class="info-text">
@@ -86,7 +101,10 @@
             <div class="info-row">
               <div class="info-icon">
                 <svg viewBox="0 0 24 24" width="20" height="20">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/>
+                  <path
+                    d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <div class="info-text">
@@ -104,7 +122,10 @@
             <div class="service-card">
               <div class="service-icon">
                 <svg viewBox="0 0 24 24" width="32" height="32">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z" fill="currentColor"/>
+                  <path
+                    d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <h4>项目咨询</h4>
@@ -114,7 +135,10 @@
             <div class="service-card">
               <div class="service-icon">
                 <svg viewBox="0 0 24 24" width="32" height="32">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="currentColor"/>
+                  <path
+                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <h4>技术支持</h4>
@@ -124,7 +148,10 @@
             <div class="service-card">
               <div class="service-icon">
                 <svg viewBox="0 0 24 24" width="32" height="32">
-                  <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z" fill="currentColor"/>
+                  <path
+                    d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zM9 6c0-1.66 1.34-3 3-3s3 1.34 3 3v2H9V6zm9 14H6V10h12v10zm-6-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
               <h4>售后服务</h4>
@@ -138,10 +165,9 @@
   </div>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
 
-<style scoped>
+<style scoped lang="scss">
 /* ==================== Banner ==================== */
 .page-banner {
   background: linear-gradient(135deg, #005bac 0%, #003d7a 100%);
@@ -368,7 +394,9 @@
   padding: 32px 24px;
   text-align: center;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .service-card:hover {
@@ -419,7 +447,7 @@
 }
 
 /* ==================== 响应式适配 ==================== */
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-tablet) {
   .content-inner {
     flex-direction: column;
   }
@@ -433,7 +461,7 @@
   }
 }
 
-@media (max-width: 576px) {
+@media (max-width: $breakpoint-small-mobile) {
   .service-cards {
     grid-template-columns: 1fr;
   }
