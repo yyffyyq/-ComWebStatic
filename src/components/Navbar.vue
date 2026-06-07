@@ -5,6 +5,14 @@
         <img src="/images/logo.png" alt="公司logo" class="logo-img" />
         <img src="/images/logoname.png" alt="温州中利建筑工程有限公司" class="logo-name" />
       </div>
+
+      <!-- 移动端汉堡按钮 -->
+      <button class="hamburger-btn" :class="{ active: mobileMenuOpen }" @click="toggleMobileMenu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       <nav class="nav-menu">
         <div
           v-for="item in menuItems"
@@ -39,6 +47,7 @@
           </transition>
         </div>
       </nav>
+
       <div class="nav-right">
         <div class="icon-links">
           <a href="https://www.tmall.com/" target="_blank" class="icon-link">
@@ -54,6 +63,39 @@
         </div>
       </div>
     </div>
+
+    <!-- 移动端抽屉菜单 -->
+    <transition name="mobile-drawer">
+      <div v-if="mobileMenuOpen" class="mobile-drawer">
+        <div v-for="item in menuItems" :key="'m-' + item.name" class="mobile-nav-item">
+          <div class="mobile-nav-link" @click="handleMobileMenuClick(item)">
+            {{ item.label }}
+            <span
+              v-if="item.children"
+              class="mobile-arrow"
+              :class="{ expanded: mobileExpanded === item.name }"
+              @click.stop="toggleMobileExpand(item.name)"
+              >▼</span
+            >
+          </div>
+          <transition name="expand">
+            <div v-if="item.children && mobileExpanded === item.name" class="mobile-sub-menu">
+              <div v-for="(col, idx) in item.children" :key="idx" class="mobile-sub-col">
+                <h5 class="mobile-col-title">{{ col.title }}</h5>
+                <div
+                  v-for="sub in col.items"
+                  :key="sub"
+                  class="mobile-sub-item"
+                  @click="handleMobileItemClick(item, col, sub)"
+                >
+                  {{ sub }}
+                </div>
+              </div>
+            </div>
+          </transition>
+        </div>
+      </div>
+    </transition>
   </header>
 </template>
 
@@ -61,10 +103,16 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { navMenu } from '../data/navMenu.js'
+import { useDevice } from '../composables/useDevice.js'
 
 const router = useRouter()
+const { isMobile } = useDevice()
 const activeDropdown = ref('')
 let dropdownTimer = null
+
+// 移动端菜单状态
+const mobileMenuOpen = ref(false)
+const mobileExpanded = ref('')
 
 // 导航菜单数据从外部配置文件读取
 const menuItems = navMenu
@@ -95,13 +143,52 @@ function handleMenuClick(menuItem) {
 
 /**
  * 点击下拉菜单中的 item：跳转到对应页面并携带 title 和 item 查询参数
- * 目标页面接收参数后会自动滚动定位到对应区块
  */
 function handleItemClick(menuItem, col, subItem) {
   router.push({
     path: menuItem.route,
     query: { title: col.title, item: subItem },
   })
+}
+
+/**
+ * 切换移动端菜单开关
+ */
+function toggleMobileMenu() {
+  mobileMenuOpen.value = !mobileMenuOpen.value
+  document.body.style.overflow = mobileMenuOpen.value ? 'hidden' : ''
+}
+
+/**
+ * 切换移动端子菜单展开
+ */
+function toggleMobileExpand(name) {
+  mobileExpanded.value = mobileExpanded.value === name ? '' : name
+}
+
+/**
+ * 移动端点击一级菜单
+ */
+function handleMobileMenuClick(item) {
+  if (!item.children) {
+    router.push(item.route)
+    mobileMenuOpen.value = false
+    document.body.style.overflow = ''
+  } else {
+    toggleMobileExpand(item.name)
+  }
+}
+
+/**
+ * 移动端点击子菜单项
+ */
+function handleMobileItemClick(menuItem, col, subItem) {
+  router.push({
+    path: menuItem.route,
+    query: { title: col.title, item: subItem },
+  })
+  mobileMenuOpen.value = false
+  document.body.style.overflow = ''
 }
 </script>
 
@@ -279,5 +366,170 @@ function handleItemClick(menuItem, col, subItem) {
   .search-box {
     display: none;
   }
+}
+
+// 移动端汉堡按钮
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+
+  span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #333;
+    transition: all 0.3s ease;
+    border-radius: 1px;
+  }
+
+  &.active {
+    span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    span:nth-child(2) {
+      opacity: 0;
+    }
+    span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+  }
+}
+
+@media (max-width: $breakpoint-mobile) {
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .nav-right {
+    display: none;
+  }
+
+  .logo-area {
+    transform: none;
+  }
+
+  .navbar-inner {
+    height: 60px;
+  }
+
+  .logo-img {
+    height: 40px;
+  }
+}
+
+// 移动端抽屉菜单
+.mobile-drawer {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 999;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 16px 0;
+}
+
+.mobile-nav-item {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.mobile-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  font-size: 16px;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:active {
+    background: #f5f5f5;
+  }
+}
+
+.mobile-arrow {
+  font-size: 10px;
+  color: #999;
+  transition: transform 0.3s;
+  padding: 8px;
+
+  &.expanded {
+    transform: rotate(180deg);
+  }
+}
+
+.mobile-sub-menu {
+  background: #f8f9fa;
+  padding: 8px 24px 16px;
+}
+
+.mobile-sub-col {
+  margin-bottom: 12px;
+}
+
+.mobile-col-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.mobile-sub-item {
+  font-size: 14px;
+  color: #333;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:active {
+    color: #005bac;
+  }
+}
+
+// 抽屉动画
+.mobile-drawer-enter-active,
+.mobile-drawer-leave-active {
+  transition: all 0.3s ease;
+}
+
+.mobile-drawer-enter-from,
+.mobile-drawer-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+// 子菜单展开动画
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+  max-height: 0;
+}
+
+.expand-enter-to,
+.expand-leave-from {
+  max-height: 500px;
 }
 </style>

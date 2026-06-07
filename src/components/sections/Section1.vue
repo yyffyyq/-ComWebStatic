@@ -63,9 +63,16 @@
 import { watch, ref } from 'vue'
 import { useScrollReveal } from '../../kaotn/useScrollReveal.js'
 import { useCountUp } from '../../kaotn/useCountUp.js'
+import { useDevice } from '../../composables/useDevice.js'
+
+// 设备判断
+const { isMobile } = useDevice()
 
 // 滚动显示动画：监听元素是否进入视口
-const { targetRef: sectionRef, isVisible } = useScrollReveal({ threshold: 0.15 })
+// 移动端降低阈值，更容易触发显示
+const { targetRef: sectionRef, isVisible } = useScrollReveal({
+  threshold: isMobile.value ? 0.05 : 0.15,
+})
 
 // 数字滚动动画：两个统计数据
 const { current: count1, start: start1 } = useCountUp(140, 1800)

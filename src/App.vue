@@ -11,8 +11,9 @@ import SideToolbar from './components/SideToolbar.vue'
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .app-wrapper {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 </style>
