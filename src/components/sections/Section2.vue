@@ -741,6 +741,12 @@ function closeModal() {
   }
 }
 
+@media (max-width: $breakpoint-mobile) {
+  .section-inner {
+    padding: 0 15px;
+  }
+}
+
 @media (max-width: $breakpoint-small-mobile) {
   .section-title {
     font-size: 36px;

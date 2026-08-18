@@ -5,7 +5,8 @@
       <!-- 左侧文字内容区 -->
       <div class="content-left">
         <!-- 主标题：滚动进入时从左侧滑入 -->
-        <h2 class="main-title" :class="{ visible: isVisible }">以质为基 链接建筑全产业链一体化</h2>
+        <h2 class="main-title" :class="{ visible: isVisible }">以质为基</h2>
+        <h2 class="main-title" :class="{ visible: isVisible }">链接建筑全产业链一体化</h2>
 
         <!-- 彩色装饰线条 + 副标题 -->
         <div class="color-line" :class="{ visible: isVisible }">
@@ -166,6 +167,7 @@ watch(isVisible, (val) => {
 .color-line {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0;
   margin-bottom: 24px;
   opacity: 0;
@@ -212,7 +214,7 @@ watch(isVisible, (val) => {
   transition-delay: 0.2s;
 }
 .color-line.visible .line-cyan {
-  width: 40px;
+  width: 95px;
   transition-delay: 0.3s;
 }
 
@@ -322,6 +324,10 @@ watch(isVisible, (val) => {
     gap: 40px;
   }
 
+  .content-left {
+    text-align: center;
+  }
+
   .content-right {
     width: 100%;
     height: 420px;
@@ -333,6 +339,10 @@ watch(isVisible, (val) => {
 
   .stat-number {
     font-size: 36px;
+  }
+
+  .stats-row {
+    justify-content: center;
   }
 }
 </style>

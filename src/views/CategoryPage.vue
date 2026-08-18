@@ -37,16 +37,42 @@
           <div v-for="col in pageData?.children" :key="col.title" class="sidebar-section">
             <h3 class="sidebar-title">{{ col.title }}</h3>
             <ul class="sidebar-list">
-              <li
+              <template
                 v-for="item in col.items"
-                :key="item"
-                :class="{
-                  active: activeTitle === col.title && activeItem === item,
-                }"
-                @click="selectItem(col.title, item)"
+                :key="typeof item === 'string' ? item : item.name"
               >
-                {{ item }}
-              </li>
+                <!-- 有子分类的项：可展开 -->
+                <template v-if="typeof item === 'object' && item.subItems">
+                  <li
+                    class="sidebar-parent"
+                    :class="{ active: activeItem === item.name, expanded: isExpanded(item.name) }"
+                    @click="toggleExpand(item.name)"
+                  >
+                    <span>{{ item.name }}</span>
+                    <span class="expand-arrow" :class="{ rotated: isExpanded(item.name) }">▸</span>
+                  </li>
+                  <ul v-show="isExpanded(item.name)" class="sidebar-sublist">
+                    <li
+                      v-for="sub in item.subItems"
+                      :key="sub"
+                      :class="{ active: activeItem === item.name && activeSubItem === sub }"
+                      @click="selectSubItem(col.title, item.name, sub)"
+                    >
+                      {{ sub }}
+                    </li>
+                  </ul>
+                </template>
+                <!-- 普通项：无子分类 -->
+                <li
+                  v-else
+                  :class="{
+                    active: activeTitle === col.title && activeItem === item,
+                  }"
+                  @click="selectItem(col.title, item)"
+                >
+                  {{ item }}
+                </li>
+              </template>
             </ul>
           </div>
         </aside>
@@ -139,6 +165,9 @@ import { pipeProducts } from '../data/管材类.js'
 import { fireProducts } from '../data/消防系统.js'
 import { electricProducts } from '../data/电气照明.js'
 import { hardwareProducts } from '../data/五金工具.js'
+import { gongyuanProducts } from '../data/公元管道.js'
+import { stainlessProducts } from '../data/不锈钢井盖.js'
+import { insulationProducts } from '../data/保温材料.js'
 
 const props = defineProps({
   pageData: { type: Object, required: true },
@@ -150,6 +179,10 @@ const router = useRouter()
 // 从 URL 查询参数中读取需要定位的 title 和 item
 const activeTitle = ref(route.query.title || '')
 const activeItem = ref(route.query.item || '')
+const activeSubItem = ref(route.query.sub || '')
+
+// 二级菜单展开状态
+const expandedItems = ref(new Set())
 
 // 搜索关键词
 const searchKey = ref('')
@@ -169,11 +202,15 @@ const categoryMap = {
   消防系统: fireProducts,
   电气照明: electricProducts,
   五金工具: hardwareProducts,
+  公元管道: gongyuanProducts,
+  不锈钢井盖: stainlessProducts,
+  保温材料: insulationProducts,
 }
 
 /**
  * 获取当前应展示的所有 items
  * 如果有 activeItem 是分类名称，加载对应数据文件
+ * 如果有 activeSubItem，进一步按 category 字段过滤
  * 如果有 activeTitle，只显示该 title 下的 items
  * 否则显示所有 title 下的 items（去重）
  */
@@ -181,6 +218,10 @@ const currentItems = computed(() => {
   // 如果当前选中的 item 是一个分类名称，加载对应数据文件中的产品列表
   if (activeItem.value && categoryMap[activeItem.value]) {
     let items = categoryMap[activeItem.value]
+    // 如果有子分类选中，按 category 字段过滤
+    if (activeSubItem.value && activeSubItem.value !== '全部') {
+      items = items.filter((i) => i.category === activeSubItem.value)
+    }
     if (searchKey.value.trim()) {
       const key = searchKey.value.trim().toLowerCase()
       items = items.filter((i) => i.name.toLowerCase().includes(key))
@@ -248,11 +289,53 @@ const totalPages = computed(() => {
 function selectItem(title, item) {
   activeTitle.value = title
   activeItem.value = item
+  activeSubItem.value = ''
   currentPage.value = 1
   router.replace({
     path: route.path,
     query: { title, item },
   })
+}
+
+/**
+ * 点击带子分类的侧边栏项：展开/收起子菜单，并默认选中"全部"
+ */
+function toggleExpand(name) {
+  if (expandedItems.value.has(name)) {
+    expandedItems.value.delete(name)
+  } else {
+    expandedItems.value.add(name)
+  }
+  // 点击父级时默认选中"全部"
+  activeTitle.value = '产品'
+  activeItem.value = name
+  activeSubItem.value = '全部'
+  currentPage.value = 1
+  router.replace({
+    path: route.path,
+    query: { title: '产品', item: name, sub: '全部' },
+  })
+}
+
+/**
+ * 点击子分类项
+ */
+function selectSubItem(title, parentName, subItem) {
+  activeTitle.value = title
+  activeItem.value = parentName
+  activeSubItem.value = subItem
+  currentPage.value = 1
+  router.replace({
+    path: route.path,
+    query: { title, item: parentName, sub: subItem },
+  })
+}
+
+/**
+ * 判断某个父级菜单是否展开
+ */
+function isExpanded(name) {
+  return expandedItems.value.has(name)
 }
 
 /**
@@ -311,7 +394,10 @@ function isDocOpen(item) {
 
 // 页面挂载后处理
 onMounted(() => {
-  // 如果 URL 带有参数，默认只显示该 title 下的内容
+  // 如果 URL 带有 sub 参数，自动展开对应的父级菜单
+  if (route.query.sub && route.query.item) {
+    expandedItems.value.add(route.query.item)
+  }
 })
 
 // 监听查询参数变化
@@ -320,6 +406,11 @@ watch(
   () => {
     activeTitle.value = route.query.title || ''
     activeItem.value = route.query.item || ''
+    activeSubItem.value = route.query.sub || ''
+    // 如果 URL 带有 sub 参数，自动展开对应的父级菜单
+    if (route.query.sub && route.query.item) {
+      expandedItems.value.add(route.query.item)
+    }
   },
 )
 </script>
@@ -474,6 +565,68 @@ watch(
 .sidebar-list li.active {
   background: #005bac;
   color: #fff;
+}
+
+/* 二级菜单父级项 */
+.sidebar-parent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+  margin-bottom: 4px;
+}
+
+.sidebar-parent:hover {
+  background: #f0f7ff;
+  color: #005bac;
+}
+
+.sidebar-parent.active {
+  background: #005bac;
+  color: #fff;
+}
+
+.expand-arrow {
+  font-size: 12px;
+  transition: transform 0.3s;
+  display: inline-block;
+}
+
+.expand-arrow.rotated {
+  transform: rotate(90deg);
+}
+
+/* 二级子菜单 */
+.sidebar-sublist {
+  list-style: none;
+  padding: 0 0 0 16px;
+  margin: 0 0 4px 0;
+}
+
+.sidebar-sublist li {
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #888;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
+  margin-bottom: 2px;
+}
+
+.sidebar-sublist li:hover {
+  background: #f0f7ff;
+  color: #005bac;
+}
+
+.sidebar-sublist li.active {
+  background: #e8f4ff;
+  color: #005bac;
+  font-weight: 500;
 }
 
 /* ==================== 右侧产品网格 ==================== */

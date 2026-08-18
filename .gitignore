@@ -18,6 +18,8 @@ dist.zip
 !.vscode/extensions.json
 .idea
 .DS_Store
+Thumbs.db
+*.code-workspace
 *.suo
 *.ntvs*
 *.njsproj

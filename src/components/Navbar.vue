@@ -32,13 +32,28 @@
                   <div v-for="(col, idx) in item.children" :key="idx" class="dropdown-col">
                     <h4 class="col-title">{{ col.title }}</h4>
                     <ul class="col-list">
-                      <li
+                      <template
                         v-for="sub in col.items"
-                        :key="sub"
-                        @click="handleItemClick(item, col, sub)"
+                        :key="typeof sub === 'string' ? sub : sub.name"
                       >
-                        {{ sub }}
-                      </li>
+                        <!-- 带子菜单的对象项 -->
+                        <li v-if="typeof sub === 'object' && sub.subItems" class="col-group">
+                          <span class="col-group-title" @click="handleItemClick(item, col, sub)">{{
+                            sub.name
+                          }}</span>
+                          <ul class="col-sublist">
+                            <li
+                              v-for="subItem in sub.subItems"
+                              :key="subItem"
+                              @click="handleSubItemClick(item, col, sub, subItem)"
+                            >
+                              {{ subItem }}
+                            </li>
+                          </ul>
+                        </li>
+                        <!-- 普通字符串项 -->
+                        <li v-else @click="handleItemClick(item, col, sub)">{{ sub }}</li>
+                      </template>
                     </ul>
                   </div>
                 </div>
@@ -82,14 +97,33 @@
             <div v-if="item.children && mobileExpanded === item.name" class="mobile-sub-menu">
               <div v-for="(col, idx) in item.children" :key="idx" class="mobile-sub-col">
                 <h5 class="mobile-col-title">{{ col.title }}</h5>
-                <div
-                  v-for="sub in col.items"
-                  :key="sub"
-                  class="mobile-sub-item"
-                  @click="handleMobileItemClick(item, col, sub)"
-                >
-                  {{ sub }}
-                </div>
+                <template v-for="sub in col.items" :key="typeof sub === 'string' ? sub : sub.name">
+                  <!-- 带子菜单的对象项 -->
+                  <div v-if="typeof sub === 'object' && sub.subItems" class="mobile-sub-group">
+                    <div
+                      class="mobile-sub-item mobile-sub-group-title"
+                      @click="handleMobileItemClick(item, col, sub)"
+                    >
+                      {{ sub.name }}
+                    </div>
+                    <div
+                      v-for="subItem in sub.subItems"
+                      :key="subItem"
+                      class="mobile-sub-item mobile-sub-child"
+                      @click="handleMobileSubItemClick(item, col, sub, subItem)"
+                    >
+                      {{ subItem }}
+                    </div>
+                  </div>
+                  <!-- 普通字符串项 -->
+                  <div
+                    v-else
+                    class="mobile-sub-item"
+                    @click="handleMobileItemClick(item, col, sub)"
+                  >
+                    {{ sub }}
+                  </div>
+                </template>
               </div>
             </div>
           </transition>
@@ -145,9 +179,20 @@ function handleMenuClick(menuItem) {
  * 点击下拉菜单中的 item：跳转到对应页面并携带 title 和 item 查询参数
  */
 function handleItemClick(menuItem, col, subItem) {
+  const itemName = typeof subItem === 'object' ? subItem.name : subItem
   router.push({
     path: menuItem.route,
-    query: { title: col.title, item: subItem },
+    query: { title: col.title, item: itemName },
+  })
+}
+
+/**
+ * 点击子分类项：携带 sub 参数
+ */
+function handleSubItemClick(menuItem, col, parentItem, subItem) {
+  router.push({
+    path: menuItem.route,
+    query: { title: col.title, item: parentItem.name, sub: subItem },
   })
 }
 
@@ -183,9 +228,22 @@ function handleMobileMenuClick(item) {
  * 移动端点击子菜单项
  */
 function handleMobileItemClick(menuItem, col, subItem) {
+  const itemName = typeof subItem === 'object' ? subItem.name : subItem
   router.push({
     path: menuItem.route,
-    query: { title: col.title, item: subItem },
+    query: { title: col.title, item: itemName },
+  })
+  mobileMenuOpen.value = false
+  document.body.style.overflow = ''
+}
+
+/**
+ * 移动端子分类项点击
+ */
+function handleMobileSubItemClick(menuItem, col, parentItem, subItem) {
+  router.push({
+    path: menuItem.route,
+    query: { title: col.title, item: parentItem.name, sub: subItem },
   })
   mobileMenuOpen.value = false
   document.body.style.overflow = ''
@@ -303,6 +361,36 @@ function handleMobileItemClick(menuItem, col, subItem) {
   transition: color 0.2s;
 }
 .col-list li:hover {
+  color: #005bac;
+}
+
+/* 带子分类的分组项 */
+.col-group {
+  margin-bottom: 4px;
+}
+.col-group-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  display: block;
+  line-height: 2.2;
+  transition: color 0.2s;
+}
+.col-group-title:hover {
+  color: #005bac;
+}
+.col-sublist {
+  list-style: none;
+  padding: 0 0 0 12px;
+  margin: 0;
+}
+.col-sublist li {
+  font-size: 13px;
+  color: #888;
+  line-height: 2;
+}
+.col-sublist li:hover {
   color: #005bac;
 }
 .dropdown-enter-active,
@@ -501,6 +589,17 @@ function handleMobileItemClick(menuItem, col, subItem) {
   &:active {
     color: #005bac;
   }
+}
+
+.mobile-sub-group-title {
+  font-weight: 600;
+  color: #333;
+}
+
+.mobile-sub-child {
+  padding-left: 16px;
+  font-size: 13px;
+  color: #888;
 }
 
 // 抽屉动画

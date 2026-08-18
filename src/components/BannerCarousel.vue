@@ -21,19 +21,12 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 const slides = [
-  { image: '/images/carousel/home/banner1/1.jpg', title: '公司大楼' },
+  { image: '/images/carousel/home/banner1/轮播首图.webp', title: '公司大楼' },
   { image: '/images/carousel/home/banner1/2.jpg', title: '公司大楼2' },
   { image: '/images/carousel/home/banner1/3.jpg', title: '公司大楼3' },
   { image: '/images/carousel/home/banner1/4.jpg', title: '公司大楼4' },
   { image: '/images/carousel/home/banner1/5.jpg', title: '公司大楼5' },
   { image: '/images/carousel/home/banner1/6.jpg', title: '公司大楼6' },
-  { image: '/images/carousel/home/banner1/7.jpg', title: '公司大楼7' },
-  { image: '/images/carousel/home/banner1/8.jpg', title: '公司大楼8' },
-  { image: '/images/carousel/home/banner1/9.jpg', title: '公司大楼9' },
-  { image: '/images/carousel/home/banner1/10.jpg', title: '公司大楼10' },
-  { image: '/images/carousel/home/banner1/11.jpg', title: '公司大楼11' },
-  { image: '/images/carousel/home/banner1/12.jpg', title: '公司大楼12' },
-  { image: '/images/carousel/home/banner1/13.jpg', title: '公司大楼13' },
 ]
 const currentIndex = ref(0)
 const autoplayInterval = ref(null)
@@ -138,12 +131,22 @@ onUnmounted(() => stopAutoplay())
 }
 @media (max-width: $breakpoint-mobile) {
   .banner-carousel {
-    height: 100vh;
+    height: auto;
+    aspect-ratio: 3 / 4;
   }
   .carousel-arrow {
     width: 36px;
     height: 36px;
     font-size: 16px;
+  }
+  .carousel-prev {
+    left: 12px;
+  }
+  .carousel-next {
+    right: 12px;
+  }
+  .carousel-dots {
+    bottom: 12px;
   }
 }
 </style>
